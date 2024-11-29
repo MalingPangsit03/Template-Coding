@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bottom Navigation</title>
+    <!--REMIXICONS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+
+    <!--CSS-->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /*GOOGLE FONTS*/
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600;700&display=swap");
+
+        /*VARIABLE CSS*/
+        :root{
+            /*COLORS*/
+            /*Color Mode HSL(Hue, Saturation, Lightness)*/
+            --first-color: hsl(225, 95%, 56%);
+            --black-color: hsl(225, 12%, 12%);
+            --white-color: hsl(0, 0%, 100%);
+            --text-color: hsl(225, 8%, 65%);
+            --body-color: hsl(225, 100%, 99%);
+
+            /*FONT and TYPOGRAPHY*/
+            /*.5rem = 8px | 1rem = 16px ...*/
+            --body-font: "Montserrat Alternates", sans-serif;
+            --biggest-font-size: 2.5rem;
+            --tiny-font-size: .625rem;
+
+            /*FONT WEIGHT*/
+            --font-regular: 400;
+            --font-semi-bold: 600;
+            --font-bold: 700;
+
+            /*Z INDEX*/
+            --z-tooltip: 10;
+            --z-fixed: 100;
+
+            /*RESPONSIVE TYPOGRAPHY*/
+            @media screen and (min-width: 1150px) {
+                :root {
+                    --biggest-font-size: 3.5rem;
+                }
+            }
+
+            /*BASE*/
+            * {
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0;
+            }
+
+            html {
+                scroll-behaviour: smooth;
+            }
+
+            body {
+                font-family: var(--body-font);
+                background-color: var(--body-color);
+                color: var(--text-color);
+            }
+
+            ul {
+                list-style: none;
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+            /*REUSABLE CSS CLASSES*/
+            .container {
+                max-width: 1120px;
+                margin-inline: 1.5rem;
+            }
+
+            /*Remove the propert of 100vh, when inserting its content*/
+            .section {
+                height: 100vh;
+                padding-block: 2.5rem;
+            }
+
+            .section h1 {
+                font-size: var(--biggest-font-size);
+                color: var(--black-color);
+                text-align: center;
+            }
+
+            /*NAVBAR*/
+            .nav {
+                position: fixed;
+                bottom: 1.5rem;
+                left: 0;
+                right: 0;
+                background-color: var(--black-color);
+                width: 88%;
+                margin-inline: auto;
+                box-shadow: 0 2px 16px hsla(228, 95%, 4%, .1);
+                padding: 1rem 1.75rem;
+                border-radius: 4rem;
+                z-index: var(--z-fixed);
+            }
+
+            .nav__list {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .nav__link {
+                color: var(--text-color);
+                font-size: 1.5rem;
+                transition: color .6s;
+            }
+
+            .nav__link:hover {
+                color: var(--white-color);
+            }
+
+            /*EXPAND LIST*/
+            .nav__expand {
+                border: none;
+                outline: none;
+                width: 40px;
+                height: 40px;
+                background-color: var(--first-color);
+                border-radius: 50%;
+                cursor: pointer;
+            }
+
+            .nav__expand-icon {
+                display: inline-block;
+                color: var(--white-color);
+                font-size: 1.5rem;
+                transition: transform .4s;
+            }
+
+            .nav__expand-list {
+                position: absolute;
+                top: -4.5rem;
+                left: 0;
+                right: 0;
+                background-color: var(--black-color);
+                box-shadow: 0 2px 16px hsla(228, 95%, 4%, .1);
+                width: max-content;
+                margin-inline: auto;
+                padding: .5rem 1.5rem;
+                border-radius: 4rem;
+                display: flex;
+                column-gap: 2rem;
+                z-index: -1;
+                overflow: hidden;
+                transform: translateY(5rem) scale(.1);
+                transiton: transform .5s cubic-bezier(.5, 1.8, .4, .8);
+            }
+
+            .nav__expand-list li {
+                transform: translateY(-3rem);
+                transition: transform .4s;
+            }
+
+            .nav__expand-list li:nth-child(1) {
+                transition-delay: .2s;
+            }
+
+            .nav__expand-list li:nth-child(2) {
+                transition-delay: .3s;
+            }
+
+            .nav__expand-list li:nth-child(3) {
+                transition-delay: .4s;
+            }
+
+            .nav__expand-link {
+                color: var(--text-color);
+                display: flex;
+                flex-direction: column;
+                align-item: center;
+                transition: color .4s;
+            }
+
+            .nav__expand-link i {
+                font-size: 1.5rem;
+            }
+
+            .nav__expand-link span {
+                font-size: var(--tiny-font-size);
+                font-weight: var(--font-semi-bold);
+            }
+
+            .nav__expand-link:hover {
+                color: var(--white-color);
+            }
+
+            /*SHOW LIST*/
+            .show-list,
+            .show-list li {
+                transform: rotate(135deg);
+            }
+
+            /*ACTIVE LINK*/
+            .active-link {
+                color: var(--white-color);
+            }
+
+            /*BREAKPOINTS*/
+            /*For medium devics*/
+            @media screen and (min-width: 450px) {
+                .nav {
+                    width: 350px;
+                }
+            }
+
+            /*for large devices*/
+            @media screen and (min-width: 1150px) {
+                .container {
+                    margin-inline: auto;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <ul class="nav__list">
+            <li>'
+                <a href="#" class="nav__link" active-link>
+                    <i class="ri-home-smile-2-line"></i>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="nav__link">
+                    <i class="ri-user-line"></i>
+                </a>
+            </li>
+
+            <!--Expand List-->
+            <li>
+                <button class="nav__expand" id="nav-expand-icon">
+                    <i class="ri-add-line nav__expand-icon" id="nav-expand-icon"></i>
+                </button>
+
+                <ul class="nav__expand-list" id="nav-expand-list">
+                    <li>
+                        <a href="#" class="nav__expand-link">
+                            <i class="ri-image-2-line">
+                                <span>Gallery</span>
+                            </i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="nav__expand-link">
+                            <i class="ri-archive-line">
+                                <span>Files</span>
+                            </i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="nav__expand-link">
+                            <i class="ri-bookmark-3-line"></i>
+                            <span>Saved</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#projects" class="nav__link">
+                    <i class="ri-briefcase-line"></i>
+                </a>
+            </li>
+
+            <li>
+                <a href="#contact" class="nav__link">
+                    <i class="ri-send-plane-line">
+
+                    </i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <!--MAIN-->
+    <main class="container">
+        <section class="section" id="home">
+            <h1>HOME</h1>
+        </section>
+
+        <section class="section" id="about">
+            <h1>ABOUT</h1>
+        </section>
+
+        <section class="section" id="projects">
+            <h1>PROJECTS</h1>
+        </section>
+
+        <section class="section" id="contact">
+            <h1>CONTACT</h1>
+        </section>
+    </main>
+
+    <!--MAIN JS-->
+    <script src="main.js">
+        /*EXPANDED LIST*/
+        const navExpand = document.getElementById('nav-expand'),
+              navExpandList = document.getElementById('nav-expand-list'),
+              navExpandIcon = document.getElementById('nav-expand-icon')
+
+        navExpand.addEventListener('click', () => {
+            // Expand List
+            navExpandList.classList.toggle('show-list')
+
+            // Rotate Icon
+            navExpandIcon.classList.toggle('rotate-icon')
+        })
+
+        /*SCROLL SECTIONS ACTIVE LINK*/
+        const sections = document.querySelectorAll('section[id]')
+
+        const scrollActive = () =>{
+            const scrollDown = window.scrollY
+            
+            section.forEach(current =>{
+                const sectionHeight = current.offsetHeight,
+                sectionTop = current.offsetTop - 58,
+                sectionId = current.getAttribute('id'),
+                sectionClass = document.querySelector('.nav__list a[href*=' + sectionId + ']')
+
+                if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
+                    sectionClass.classList.add('active-link')
+                } else{
+                    sectionClass.classList.remove('active-link')
+                }
+            })
+        }
+        window.addEventListener('scroll', scrollActive)
+    </script>
+</body>
+</html>
