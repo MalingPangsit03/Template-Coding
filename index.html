@@ -1,781 +1,876 @@
 <!DOCTYPE html>
-   <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-      <!--=============== REMIXICONS ===============-->
-      <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
-
-      <!--=============== CSS ===============-->
-      <link rel="stylesheet" href="bsstyle.css">
-
-      <title>Bestari Swimming</title>
-      <style>
-         /*=============== GOOGLE FONTS ===============*/
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
-
-/*=============== VARIABLES CSS ===============*/
-:root {
-  --header-height: 3.5rem;
-
-  /*========== Colors ==========*/
-  /*Color mode HSL(hue, saturation, lightness)*/
-  --black-color: hsl(220, 24%, 12%);
-  --black-color-light: hsl(220, 24%, 15%);
-  --black-color-lighten: hsl(220, 20%, 18%);
-  --brown-color-light: #C2B280;
-  --brown-color:#83733F;
-  --white-color: #fff;
-  --body-color: hsl(220, 100%, 97%);
-
-  /*========== Font and typography ==========*/
-  /*.5rem = 8px | 1rem = 16px ...*/
-  --body-font: "Montserrat", sans-serif;
-  --normal-font-size: .700rem;
-
-  /*========== Font weight ==========*/
-  --font-regular: 400;
-  --font-semi-bold: 600;
-
-  /*========== z index ==========*/
-  --z-tooltip: 10;
-  --z-fixed: 100;
-}
-
-/*========== Responsive typography ==========*/
-@media screen and (min-width: 1024px) {
-  :root {
-    --normal-font-size: 1rem;
-  }
-}
-
-/*=============== BASE ===============*/
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  font-family: var(--body-font);
-  font-size: var(--normal-font-size);
-  background-color: var(--body-color);
-}
-
-ul {
-  list-style: none;
-  /* Color highlighting when pressed on mobile devices */
-  /*-webkit-tap-highlight-color: transparent;*/
-}
-
-a {
-  text-decoration: none;
-}
-
-/*=============== REUSABLE CSS CLASSES ===============*/
-.container {
-  max-width: 1120px;
-  margin-inline: 1.5rem;
-}
-
-/*=============== HEADER ===============*/
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #83733F;
-  box-shadow: #83733F;
-  z-index: var(--z-fixed);
-}
-
-/*=============== NAV ===============*/
-.nav {
-  height: var(--header-height);
-}
-
-.nav__logo, 
-.nav__burger, 
-.nav__close {
-  color: var(--white-color);
-}
-
-.nav__data {
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nav__logo {
-  display: inline-flex;
-  align-items: center;
-  column-gap: .25rem;
-  font-weight: var(--font-semi-bold);
-  /* Color highlighting when pressed on mobile devices */
-  /*-webkit-tap-highlight-color: transparent;*/
-}
-
-.nav__logo i {
-  font-weight: initial;
-  font-size: 1.25rem;
-}
-
-.nav__toggle {
-  position: relative;
-  width: 32px;
-  height: 32px;
-}
-
-.nav__burger, 
-.nav__close {
-  position: absolute;
-  width: max-content;
-  height: max-content;
-  inset: 0;
-  margin: auto;
-  font-size: 1.25rem;
-  cursor: pointer;
-  transition: opacity .1s, transform .4s;
-}
-
-.nav__close {
-  opacity: 0;
-}
-
-/* Navigation for mobile devices */
-@media screen and (max-width: 1118px) {
-  .nav__menu {
-    position: absolute;
-    left: 0;
-    top: 2.5rem;
-    width: 100%;
-    height: calc(100vh - 3.5rem);
-    overflow: auto;
-    pointer-events: none;
-    opacity: 0;
-    transition: top .4s, opacity .3s;
-  }
-  .nav__menu::-webkit-scrollbar {
-    width: 0;
-  }
-  .nav__list {
-    background-color: var(--black-color);
-    padding-top: 1rem;
-  }
-}
-
-.nav__link {
-  color: var(--white-color);
-  background-color: #83733F;
-  font-weight: var(--font-semi-bold);
-  padding: 0.75rem 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: background-color .3s;
-}
-
-.nav__link:hover {
-  background-color: #C2B280;
-}
-
-/* Show menu */
-.show-menu {
-  opacity: 1;
-  top: 3.5rem;
-  pointer-events: initial;
-}
-
-/* Show icon */
-.show-icon .nav__burger {
-  opacity: 0;
-  transform: rotate(90deg);
-}
-.show-icon .nav__close {
-  opacity: 1;
-  transform: rotate(90deg);
-}
-
-/*=============== DROPDOWN ===============*/
-.dropdown__item {
-  cursor: pointer;
-}
-
-.dropdown__arrow {
-  font-size: 1.25rem;
-  font-weight: initial;
-  transition: transform .4s;
-}
-
-.dropdown__link, 
-.dropdown__sublink {
-  padding: 1.25rem 1.25rem 1.25rem 2.5rem;
-  color: var(--white-color);
-  background-color: var(--black-color-light);
-  display: flex;
-  align-items: center;
-  column-gap: .5rem;
-  font-weight: var(--font-semi-bold);
-  transition: background-color .3s;
-}
-
-.dropdown__link i, 
-.dropdown__sublink i {
-  font-size: 1.25rem;
-  font-weight: initial;
-}
-
-.dropdown__link:hover, 
-.dropdown__sublink:hover {
-  background-color: var(--black-color);
-}
-
-.dropdown__menu, 
-.dropdown__submenu {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .4s ease-out;
-}
-
-/* Show dropdown menu & submenu */
-.dropdown__item:hover .dropdown__menu, 
-.dropdown__subitem:hover > .dropdown__submenu {
-  max-height: 1000px;
-  transition: max-height .4s ease-in;
-}
-
-/* Rotate dropdown icon */
-.dropdown__item:hover .dropdown__arrow {
-  transform: rotate(180deg);
-}
-
-/*=============== DROPDOWN SUBMENU ===============*/
-.dropdown__add {
-  margin-left: auto;
-}
-
-.dropdown__sublink {
-  background-color: var(--black-color-lighten);
-}
-
-/*=============== BREAKPOINTS ===============*/
-/* For small devices */
-@media screen and (max-width: 340px) {
-
-    #su_button {
-        display: none; /* Hide button */
-      }
-    
-  .container {
-    margin-inline: 1rem;
-  }
-
-  .nav__link {
-    padding-inline: 1rem;
-  }
-}
-
-/* For large devices */
-@media screen and (min-width: 1118px) {
-
-  .container {
-    margin-inline: auto;
-  }
-
-  .nav {
-    height: calc(var(--header-height) + 2rem);
-    display: flex;
-    justify-content: space-between;
-  }
-  .nav__toggle {
-    display: none;
-  }
-  .nav__list {
-    height: 100%;
-    display: flex;
-    column-gap: 3rem;
-  }
-  .nav__link {
-    height: 100%;
-    padding: 0;
-    justify-content: initial;
-    column-gap: .25rem;
-  }
-  .nav__link:hover {
-    background-color: transparent;
-  }
-
-  .dropdown__item, 
-  .dropdown__subitem {
-    position: relative;
-  }
-
-  .dropdown__menu, 
-  .dropdown__submenu {
-    max-height: initial;
-    overflow: initial;
-    position: absolute;
-    left: 0;
-    top: 6rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .3s, top .3s;
-  }
-
-  .dropdown__link, 
-  .dropdown__sublink {
-    padding-inline: 1rem 3.5rem;
-  }
-
-  .dropdown__subitem .dropdown__link {
-    padding-inline: 1rem;
-  }
-
-  .dropdown__submenu {
-    position: absolute;
-    left: 100%;
-    top: .5rem;
-  }
-
-  /* Show dropdown menu */
-  .dropdown__item:hover .dropdown__menu {
-    opacity: 1;
-    top: 5.5rem;
-    pointer-events: initial;
-    transition: top .3s;
-  }
-
-  /* Show dropdown submenu */
-  .dropdown__subitem:hover > .dropdown__submenu {
-    opacity: 1;
-    top: 0;
-    pointer-events: initial;
-    transition: top .3s;
-  }
-}
-
-/*============================HOME================================*/
-/* General HOME Section Styles */
-.container_home {
-  margin-top: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-image: url("././image/orang berenang.png");
-  background-size: cover;
-  padding: 10rem 1rem;
-  text-align: center;
-}
-
-.text_1_home{
-  width: auto;
-  height: auto;
-  font-size: 2rem;
-  color: #000;
-}
-
-
-.text_1_home p {
-  color: #fff;
-  margin-top: 1rem;
-  font-size: 1rem;
-}
-
-.text_2_home {
-  margin-top: 20px;
-  padding: 1.5rem;
-  background-color: rgba(122, 99, 50, 0.9);
-  color: #fff;
-  border-radius: 10px;
-}
-
-.text_2_home p {
-  margin-bottom: 1rem;
-}
-
-.home_paket_button {
-  display: inline-block;
-  color: #fff;
-  background-color: #000;
-  margin-top: 10px;
-  padding: 0.75rem 1.5rem;
-  border-radius: 25px;
-  font-weight: 600;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.home_paket_button:hover {
-  background-color: #fff;
-  color: #000;
-}
-
-/* Responsive Styles for Mobile Devices */
-@media (max-width: 768px) {
-  .container_home {
-    padding: 8rem 1rem;
-  }
-
-  .text_1_home h1 {
-    font-size: 1.5rem; /* Reduce heading size */
-  }
-
-  .text_1_home p {
-    font-size: 0.9rem; /* Reduce paragraph size */
-  }
-
-  .text_2_home {
-    padding: 1rem; /* Reduce padding */
-    font-size: 0.9rem;
-  }
-
-  .home_paket_button {
-    padding: 0.6rem 1rem; /* Adjust button padding */
-    font-size: 0.85rem;   /* Adjust button font size */
-  }
-}
-
-@media (max-width: 480px) {
-  .container_home {
-    padding: 6rem 1rem;
-  }
-
-  .text_1_home h1 {
-    font-size: 1.2rem; /* Further reduce heading size */
-  }
-
-  .text_1_home p {
-    font-size: 0.8rem; /* Further reduce paragraph size */
-  }
-
-  .text_2_home {
-    padding: 0.8rem; /* Smaller padding for very small screens */
-    font-size: 0.8rem;
-  }
-
-  .home_paket_button {
-    padding: 0.5rem 0.8rem; /* Compact button size */
-    font-size: 0.8rem;      /* Smaller button font size */
-  }
-}
-
-
-/*============================PROFIL================================*/
-.container_profile {
-  position: relative;
-  display: flex;
-  flex-direction: column; /* Stack content vertically for smaller devices */
-  font-family: var(--body-font);
-  align-items: center;
-  padding: 1rem;
-}
-
-/* General Text Styles */
-.text_1_profile {
-  align-items: center;
-  text-align: center;
-  padding: 1rem;
-}
-
-/* Responsive Text Box */
-.text_2_profile {
-  text-align: center;
-  margin: 0 50px 30px; /* Reduced margin for smaller screens */
-  color: #fff;
-  background-color: rgb(116, 96, 63);
-  width: 90%; /* Responsive width */
-  max-width: 800px; /* Cap width for larger screens */
-  border-radius: 20px;
-  border-style: none;
-  height: auto; /* Allow content height to adjust */
-  padding: 1.5rem;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.text_2_profile:hover {
-  background-color: rgb(97, 80, 52);
-  cursor: text;
-}
-
-/* Responsive Styles for Tablets and Smaller Devices */
-@media (max-width: 768px) {
-  .text_2_profile {
-      margin: 0 15px 20px; /* Reduced side margins */
-      font-size: 1rem; /* Smaller font size for readability */
-      height: auto; /* Content adjusts dynamically */
-  }
-}
-
-/* Responsive Styles for Mobile Devices */
-@media (max-width: 480px) {
-  .text_2_profile {
-      margin: 0 10px 15px; /* Further reduced side margins */
-      font-size: 0.9rem; /* Smaller font size */
-      padding: 1rem; /* Adjust padding */
-  }
-
-  .text_1_profile {
-      font-size: 1rem; /* Adjust text size for smaller screens */
-  }
-}
-
-
-/*============================GALLERY================================*/
-.container_gallery{
-
-  font-family: var(--body-font);
-}
-
-.text_1_gallery{
-  align-items: center;
-  text-align: center;
-  padding: 1rem 1rem 1rem 1rem;
-}
-
-.wrapper_gallery{
-  display: flex;
-  overflow-x: auto;
-}
-
-.wrapper_gallery .item_gallery{
-  min-width: 300px;
-  height: 150px;
-  width: 300px;
-  padding: 1rem 1rem 1rem 1rem;
-  margin: 10px 10px 10px 10px;
-  line-height: 110px;
-  text-align: center;
-  background-color: #ddd;
-}
-
-/*============================PAKET================================*/
-.container_paket{
-
-  font-family: var(--body-font);
-}
-
-.text_1_paket{
-  align-items: center;
-  text-align: center;
-  padding: 1rem 1rem 1rem 1rem;
-}
-
-.wrapper_paket{
-  display: flex;
-  overflow-x: auto;
-}
-
-.wrapper_paket .item_paket{
-  min-width: 300px;
-  height: 300px;
-  width: 200px;
-  padding: 1rem 1rem 1rem 1rem;
-  margin: 10px 10px 10px 10px;
-  line-height: 110px;
-  text-align: center;
-  background-color: #ddd;
-}
-
-#paket_1{
-  background-image: url("././image/Paket\ 1.jpg");
-  background-repeat: repeat;
-  background-size: 300px;
-}
-
-#paket_2{
-  background-image: url("././image/Paket\ 2.jpg");
-  background-repeat: repeat;
-  background-size: 300px;
-}
-
-#paket_3{
-  background-image: url("././image/Paket\ 3.jpg");
-  background-repeat: repeat;
-  background-size: 300px;
-}
-
-#paket_4{
-  background-image: url("././image/Paket\ 4.jpg");
-  background-repeat: repeat;
-  background-size: 300px;
-}
-
-
-/*============================CONTACT================================*/
-.container_contact{
-  margin-top: 300px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.contact_page{
-  background-color: #dddddd;
-  padding: 10rem 2rem 10rem 2rem;
-  font-size: large;
-  color: #313131;
-}
-
-.text_1_contact{
-  color: rgb(97, 80, 52);
-}
-
-/*============================FOOTERS================================*/
-footer{
-  text-align: center;
-  background-color: #83733F;
-  height: 80px;
-  font-weight: bolder;
-  color: white;
-  padding: 1rem 1rem 1rem 1rem;
-}
-
-
-      </style>
-   </head>
-   <body>
-      <!--=============== HEADER ===============-->
-      <header class="header">
-         <nav class="nav container">
-            <div class="nav__data">
-               <a href="#" class="nav__logo">
-                  <i class="ri-planet-line"></i> Bestari Swimming
-               </a>
-               
-               <div class="nav__toggle" id="nav-toggle">
-                  <i class="ri-menu-line nav__burger"></i>
-                  <i class="ri-close-line nav__close"></i>
-               </div>
-            </div>
-
-            <!--=============== NAV MENU ===============-->
-            <div class="nav__menu" id="nav-menu">
-               <ul class="nav__list">
-                  <li><a href="#home" class="nav__link">HOME</a></li>
-
-                  <li><a href="#profile" class="nav__link">PROFILE</a></li>
-                  
-                  <li><a href="#gallery" class="nav__link">GALLERY</a></li>
-                  
-                  <li><a href="#paket" class="nav__link">PAKET</a></li>
-
-                  <li><a href="#contact" class="nav__link">CONTACT</a></li>
-
-                  <li>
-                    <style>
-                        #su_button{
-                            background-color: rgb(22, 22, 22);
-                            background-repeat: no-repeat;
-                            border-radius: 20px;
-                            height: 50px;
-                            margin-top: 18px;
-                            transition: 0.5s;
-                        }
-
-                        #su_button:hover {
-                            background-color: #fff;
-                            transform: scale(1.1); 
-                            color: rgb(22, 22, 22); 
-    }
-                    </style>
-                        <a href="#" class="nav__link" id="su_button">DAFTAR SEKARANG</a>
-                  </li>
-
-               </ul>
-            </div>
-         </nav>
-      </header>
-
-      <div class="container_home">
-        <div class="home_page" id="home">
-            <h1 class="text_1_home">Bestari Swimming</h1>
-            <h3 class="text_2_home">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                </h3>
-
-            <a class="home_paket_button">
-                See Our Paket
-            </a>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+
+  <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;900&display=swap"
+    rel="stylesheet">
+
+  <!-- 
+    - material icon link
+  -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <!-- 
+    - #HEADER
+  -->
+
+  <header class="header" data-header>
+    <div class="container">
+
+      <h1>
+        <a href="#" class="logo">Dashboard</a>
+      </h1>
+
+      <button class="menu-toggle-btn icon-box" data-menu-toggle-btn aria-label="Toggle Menu">
+        <span class="material-symbols-rounded  icon">menu</span>
+      </button>
+
+      <nav class="navbar">
+        <div class="container">
+
+          <ul class="navbar-list">
+
+            <li>
+              <a href="#" class="navbar-link active icon-box">
+                <span class="material-symbols-rounded  icon">grid_view</span>
+
+                <span>Home</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="navbar-link icon-box">
+                <span class="material-symbols-rounded  icon">folder</span>
+
+                <span>Projects</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="navbar-link icon-box">
+                <span class="material-symbols-rounded  icon">list</span>
+
+                <span>Tasks</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="navbar-link icon-box">
+                <span class="material-symbols-rounded  icon">bar_chart</span>
+
+                <span>Reports</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="navbar-link icon-box">
+                <span class="material-symbols-rounded  icon">settings</span>
+
+                <span>Settings</span>
+              </a>
+            </li>
+
+          </ul>
+
+          <ul class="user-action-list">
+
+            <li>
+              <a href="#" class="notification icon-box">
+                <span class="material-symbols-rounded  icon">notifications</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="header-profile">
+
+                <figure class="profile-avatar">
+                  <img src="./assets/images/avatar-1.jpg" alt="Elizabeth Foster" width="32" height="32">
+                </figure>
+
+                <div>
+                  <p class="profile-title">Elizabeth F</p>
+
+                  <p class="profile-subtitle">Admin</p>
+                </div>
+
+              </a>
+            </li>
+
+          </ul>
+
         </div>
-      </div>
+      </nav>
 
-      <br>
-      <br>
+    </div>
+  </header>
 
-      <div class="container_profile">
-        <div class="profile_page" id="profile">
-            <h1 class="text_1_profile">Profile</h1>
-            <h3 class="text_2_profile">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</h3>
+
+
+
+
+  <main>
+    <article class="container article">
+
+      <h2 class="h2 article-title">Hi Elizabeth</h2>
+
+      <p class="article-subtitle">Welcome to Dashboard!</p>
+
+      <!-- 
+        - #HOME
+      -->
+
+      <section class="home">
+
+        <div class="card profile-card">
+
+          <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
+            <span class="material-symbols-rounded  icon">more_horiz</span>
+          </button>
+
+          <ul class="ctx-menu">
+
+            <li class="ctx-item">
+              <button class="ctx-menu-btn icon-box">
+                <span class="material-symbols-rounded  icon" aria-hidden="true">edit</span>
+
+                <span class="ctx-menu-text">Edit</span>
+              </button>
+            </li>
+
+            <li class="ctx-item">
+              <button class="ctx-menu-btn icon-box">
+                <span class="material-symbols-rounded  icon" aria-hidden="true">cached</span>
+
+                <span class="ctx-menu-text">Refresh</span>
+              </button>
+            </li>
+
+            <li class="divider"></li>
+
+            <li class="ctx-item">
+              <button class="ctx-menu-btn red icon-box">
+                <span class="material-symbols-rounded  icon" aria-hidden="true">delete</span>
+
+                <span class="ctx-menu-text">Deactivate</span>
+              </button>
+            </li>
+
+          </ul>
+
+          <div class="profile-card-wrapper">
+
+            <figure class="card-avatar">
+              <img src="./assets/images/avatar-1.jpg" alt="Elizabeth Foster" width="48" height="48">
+            </figure>
+
+            <div>
+              <p class="card-title">Elizabeth Foster</p>
+
+              <p class="card-subtitle">Web & Graphic Designer</p>
+            </div>
+
+          </div>
+
+          <ul class="contact-list">
+
+            <li>
+              <a href="mailto:xyz@mail.com" class="contact-link icon-box">
+                <span class="material-symbols-rounded  icon">mail</span>
+
+                <p class="text">xyz@mail.com</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="tel:00123456789" class="contact-link icon-box">
+                <span class="material-symbols-rounded  icon">call</span>
+
+                <p class="text">+00 123-456-789</p>
+              </a>
+            </li>
+
+          </ul>
+
+          <div class="divider card-divider"></div>
+
+          <ul class="progress-list">
+
+            <li class="progress-item">
+
+              <div class="progress-label">
+                <p class="progress-title">Project Completion</p>
+
+                <data class="progress-data" value="85">85%</data>
+              </div>
+
+              <div class="progress-bar">
+                <div class="progress" style="--width: 85%; --bg: var(--blue-ryb);"></div>
+              </div>
+
+            </li>
+
+            <li class="progress-item">
+
+              <div class="progress-label">
+                <p class="progress-title">Overall Rating</p>
+
+                <data class="progress-data" value="7.5">7.5</data>
+              </div>
+
+              <div class="progress-bar">
+                <div class="progress" style="--width: 75%; --bg: var(--coral);"></div>
+              </div>
+
+            </li>
+
+          </ul>
+
         </div>
-      </div>
 
-      <br>
-      <br>
+        <div class="card-wrapper">
 
-      <div class="container_gallery">
-         <div class="gallery_page">
-            <h1 class="text_1_gallery">Gallery</h1>
-            <div class="wrapper_gallery">
-               <div class="item_gallery">box-1</div>
-               <div class="item_gallery">box-2</div>
-               <div class="item_gallery">box-3</div>
-               <div class="item_gallery">box-4</div>
-               <div class="item_gallery">box-5</div>
-               <div class="item_gallery">box-6</div>
-               <div class="item_gallery">box-7</div>
+          <div class="card task-card">
+
+            <div class="card-icon icon-box green">
+              <span class="material-symbols-rounded  icon">task_alt</span>
             </div>
-         </div>
-      </div>
 
-      <br>
-      <br>
+            <div>
+              <data class="card-data" value="21">21</data>
 
-      <div class="container_paket">
-         <div class="paket_page" id="paket">
-            <h1 class="text_1_paket">Paket Kami</h1>
-            <div class="wrapper_paket">
-               <div class="item_paket" id="paket_1"></div>
-               <div class="item_paket" id="paket_2"></div>
-               <div class="item_paket" id="paket_3"></div>
-               <div class="item_paket" id="paket_4"></div>
+              <p class="card-text">Tasks Completed</p>
             </div>
-         </div>
-      </div>
 
-      <br>
-      <br>
+          </div>
 
-      <div class="container_contact">
-         <div class="contact_page" id="contact">
-            <h1 class="text_1_contact">HUBUNGI KAMI</h1>
-            <p>Anda dapat menghubungi kami melalui kontak berikut:</p>
-            <p>Instagram : <span style="color: rgb(97, 80, 52); font-weight: bold;">@Bestari.id</span></p>
-            <p>Whatsapp  : <span style="color: rgb(97, 80, 52); font-weight: bold;">0882-1972-7624</span></p>
-         </div>
-      </div>
-      <footer>
-         <p>© 2024 Bestari Swimming. All rights reserved.</p>
-      </footer>
+          <div class="card task-card">
 
-      <!--=============== MAIN JS ===============-->
-      <script src="bsjs.js">
-         /*=============== SHOW MENU ===============*/
-const showMenu = (toggleId, navId) =>{
-    const toggle = document.getElementById(toggleId),
-          nav = document.getElementById(navId)
- 
-    toggle.addEventListener('click', () =>{
-        // Add show-menu class to nav menu
-        nav.classList.toggle('show-menu')
- 
-        // Add show-icon to show and hide the menu icon
-        toggle.classList.toggle('show-icon')
-    })
- }
- 
- showMenu('nav-toggle','nav-menu')
-      </script>
-   </body>
+            <div class="card-icon icon-box blue">
+              <span class="material-symbols-rounded  icon">drive_file_rename_outline</span>
+            </div>
+
+            <div>
+              <data class="card-data" value="21">21</data>
+
+              <p class="card-text">Tasks Inprogress</p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="card revenue-card">
+
+          <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
+            <span class="material-symbols-rounded  icon">more_horiz</span>
+          </button>
+
+          <ul class="ctx-menu">
+
+            <li class="ctx-item">
+              <button class="ctx-menu-btn icon-box">
+                <span class="material-symbols-rounded  icon" aria-hidden="true">edit</span>
+
+                <span class="ctx-menu-text">Edit</span>
+              </button>
+            </li>
+
+            <li class="ctx-item">
+              <button class="ctx-menu-btn icon-box">
+                <span class="material-symbols-rounded  icon" aria-hidden="true">cached</span>
+
+                <span class="ctx-menu-text">Refresh</span>
+              </button>
+            </li>
+
+          </ul>
+
+          <p class="card-title">Revenue</p>
+
+          <data class="card-price" value="2100">$2,100</data>
+
+          <p class="card-text">Last Week</p>
+
+          <div class="divider card-divider"></div>
+
+          <ul class="revenue-list">
+
+            <li class="revenue-item icon-box">
+
+              <span class="material-symbols-rounded  icon  green">trending_up</span>
+
+              <div>
+                <data class="revenue-item-data" value="15">15%</data>
+
+                <p class="revenue-item-text">Prev Week</p>
+              </div>
+
+            </li>
+
+            <li class="revenue-item icon-box">
+
+              <span class="material-symbols-rounded  icon  red">trending_down</span>
+
+              <div>
+                <data class="revenue-item-data" value="10">10%</data>
+
+                <p class="revenue-item-text">Prev Month</p>
+              </div>
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+
+
+
+      <!-- 
+        - #PROJECTS
+      -->
+
+      <section class="projects">
+
+        <div class="section-title-wrapper">
+          <h2 class="section-title">Recent Projects</h2>
+
+          <button class="btn btn-link icon-box">
+            <span>View All</span>
+
+            <span class="material-symbols-rounded  icon" aria-hidden="true">arrow_forward</span>
+          </button>
+        </div>
+
+        <ul class="project-list">
+
+          <li class="project-item">
+            <div class="card project-card">
+
+              <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
+                <span class="material-symbols-rounded  icon">more_horiz</span>
+              </button>
+
+              <ul class="ctx-menu">
+
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">visibility</span>
+
+                    <span class="ctx-menu-text">View</span>
+                  </button>
+                </li>
+
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">edit</span>
+
+                    <span class="ctx-menu-text">Edit</span>
+                  </button>
+                </li>
+
+                <li class="divider"></li>
+
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn red icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">delete</span>
+
+                    <span class="ctx-menu-text">Delete</span>
+                  </button>
+                </li>
+
+              </ul>
+
+              <time class="card-date" datetime="2022-04-09">Apr 09, 2022</time>
+
+              <h3 class="card-title">
+                <a href="#">Shreyu - Design Updates</a>
+              </h3>
+
+              <div class="card-badge blue">Designing</div>
+
+              <p class="card-text">
+                Update shreyu with modern and latest trends...
+              </p>
+
+              <div class="card-progress-box">
+
+                <div class="progress-label">
+                  <span class="progress-title">Progress</span>
+
+                  <data class="progress-data" value="75">75%</data>
+                </div>
+
+                <div class="progress-bar">
+                  <div class="progress" style="--width: 75%; --bg: var(--emerald);"></div>
+                </div>
+
+              </div>
+
+              <ul class="card-avatar-list">
+
+                <li class="card-avatar-item">
+                  <a href="#">
+                    <img src="./assets/images/avatar-1.jpg" alt="Elizabeth Foster" width="32" height="32">
+                  </a>
+                </li>
+
+                <li class="card-avatar-item">
+                  <a href="#">
+                    <img src="./assets/images/avatar-2.jpg" alt="John Foster" width="32" height="32">
+                  </a>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+          <li class="project-item">
+            <div class="card project-card">
+
+              <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
+                <span class="material-symbols-rounded  icon">more_horiz</span>
+              </button>
+
+              <ul class="ctx-menu">
+
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">visibility</span>
+
+                    <span class="ctx-menu-text">View</span>
+                  </button>
+                </li>
+
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">edit</span>
+
+                    <span class="ctx-menu-text">Edit</span>
+                  </button>
+                </li>
+
+                <li class="divider"></li>
+
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn red icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">delete</span>
+
+                    <span class="ctx-menu-text">Delete</span>
+                  </button>
+                </li>
+
+              </ul>
+
+              <time class="card-date" datetime="2022-04-09">Apr 09, 2022</time>
+
+              <h3 class="card-title">
+                <a href="#">Prompt v2.0</a>
+              </h3>
+
+              <div class="card-badge orange">Planning</div>
+
+              <p class="card-text">
+                Plan new features and functionality for prompt...
+              </p>
+
+              <div class="card-progress-box">
+
+                <div class="progress-label">
+                  <span class="progress-title">Progress</span>
+
+                  <data class="progress-data" value="50">50%</data>
+                </div>
+
+                <div class="progress-bar">
+                  <div class="progress" style="--width: 50%; --bg: var(--imperial-red);"></div>
+                </div>
+
+              </div>
+
+              <ul class="card-avatar-list">
+
+                <li class="card-avatar-item">
+                  <a href="#">
+                    <img src="./assets/images/avatar-1.jpg" alt="Elizabeth Foster" width="32" height="32">
+                  </a>
+                </li>
+
+                <li class="card-avatar-item">
+                  <a href="#">
+                    <img src="./assets/images/avatar-2.jpg" alt="John Foster" width="32" height="32">
+                  </a>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+          <li class="project-item">
+            <div class="card project-card">
+
+              <button class="card-menu-btn icon-box" aria-label="More" data-menu-btn>
+                <span class="material-symbols-rounded  icon">more_horiz</span>
+              </button>
+
+              <ul class="ctx-menu">
+
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">visibility</span>
+
+                    <span class="ctx-menu-text">View</span>
+                  </button>
+                </li>
+
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">edit</span>
+
+                    <span class="ctx-menu-text">Edit</span>
+                  </button>
+                </li>
+
+                <li class="divider"></li>
+
+                <li class="ctx-item">
+                  <button class="ctx-menu-btn red icon-box">
+                    <span class="material-symbols-rounded  icon" aria-hidden="true">delete</span>
+
+                    <span class="ctx-menu-text">Delete</span>
+                  </button>
+                </li>
+
+              </ul>
+
+              <time class="card-date" datetime="2022-04-09">Apr 09, 2022</time>
+
+              <h3 class="card-title">
+                <a href="#">Hyper React v4.0</a>
+              </h3>
+
+              <div class="card-badge cyan">Development</div>
+
+              <p class="card-text">
+                Update shreyu with modern and latest trends...
+              </p>
+
+              <div class="card-progress-box">
+
+                <div class="progress-label">
+                  <span class="progress-title">Progress</span>
+
+                  <data class="progress-data" value="60">60%</data>
+                </div>
+
+                <div class="progress-bar">
+                  <div class="progress" style="--width: 60%; --bg: var(--sunglow);"></div>
+                </div>
+
+              </div>
+
+              <ul class="card-avatar-list">
+
+                <li class="card-avatar-item">
+                  <a href="#">
+                    <img src="./assets/images/avatar-1.jpg" alt="Elizabeth Foster" width="32" height="32">
+                  </a>
+                </li>
+
+                <li class="card-avatar-item">
+                  <a href="#">
+                    <img src="./assets/images/avatar-2.jpg" alt="John Foster" width="32" height="32">
+                  </a>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+        </ul>
+
+      </section>
+
+
+
+
+      <!-- 
+        - #TASKS
+      -->
+
+      <section class="tasks">
+
+        <div class="section-title-wrapper">
+          <h2 class="section-title">Tasks</h2>
+
+          <button class="btn btn-link icon-box">
+            <span>View All</span>
+
+            <span class="material-symbols-rounded  icon" aria-hidden="true">arrow_forward</span>
+          </button>
+        </div>
+
+        <ul class="tasks-list">
+
+          <li class="tasks-item">
+            <div class="card task-card">
+
+              <div class="card-input">
+                <input type="checkbox" name="task-1" id="task-1">
+
+                <label for="task-1" class="task-label">
+                  Draft the new contract document for sales team
+                </label>
+              </div>
+
+              <div class="card-badge cyan radius-pill">Today 10pm</div>
+
+              <ul class="card-meta-list">
+
+                <li>
+                  <div class="meta-box icon-box">
+                    <span class="material-symbols-rounded  icon">list</span>
+
+                    <span>3/7</span>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="meta-box icon-box">
+                    <span class="material-symbols-rounded  icon">comment</span>
+
+                    <data value="21">21</data>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="card-badge red">High</div>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+          <li class="tasks-item">
+            <div class="card task-card">
+
+              <div class="card-input">
+                <input type="checkbox" name="task-2" id="task-2">
+
+                <label for="task-2" class="task-label">
+                  iOS App home page design
+                </label>
+              </div>
+
+              <div class="card-badge cyan radius-pill">Today 5pm</div>
+
+              <ul class="card-meta-list">
+
+                <li>
+                  <div class="meta-box icon-box">
+                    <span class="material-symbols-rounded  icon">list</span>
+
+                    <span>10/11</span>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="meta-box icon-box">
+                    <span class="material-symbols-rounded  icon">comment</span>
+
+                    <data value="5">5</data>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="card-badge orange">Medium</div>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+          <li class="tasks-item">
+            <div class="card task-card">
+
+              <div class="card-input">
+                <input type="checkbox" name="task-3" id="task-3">
+
+                <label for="task-3" class="task-label">
+                  Enable analytics tracking
+                </label>
+              </div>
+
+              <div class="card-badge radius-pill">Tomorrow 5pm</div>
+
+              <ul class="card-meta-list">
+
+                <li>
+                  <div class="meta-box icon-box">
+                    <span class="material-symbols-rounded  icon">list</span>
+
+                    <span>5/11</span>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="meta-box icon-box">
+                    <span class="material-symbols-rounded  icon">comment</span>
+
+                    <data value="7">7</data>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="card-badge orange">Medium</div>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+          <li class="tasks-item">
+            <div class="card task-card">
+
+              <div class="card-input">
+                <input type="checkbox" name="task-4" id="task-4">
+
+                <label for="task-4" class="task-label">
+                  Kanban board design
+                </label>
+              </div>
+
+              <div class="card-badge radius-pill">Sep 11, 3pm</div>
+
+              <ul class="card-meta-list">
+
+                <li>
+                  <div class="meta-box icon-box">
+                    <span class="material-symbols-rounded  icon">list</span>
+
+                    <span>0/5</span>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="meta-box icon-box">
+                    <span class="material-symbols-rounded  icon">comment</span>
+
+                    <data value="3">3</data>
+                  </div>
+                </li>
+
+                <li>
+                  <div class="card-badge green">Low</div>
+                </li>
+
+              </ul>
+
+            </div>
+          </li>
+
+        </ul>
+
+        <button class="btn btn-primary" data-load-more>
+          <span class="spiner"></span>
+
+          <span>Load More</span>
+        </button>
+
+      </section>
+
+    </article>
+  </main>
+
+
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer">
+    <div class="container">
+
+      <ul class="footer-list">
+
+        <li class="footer-item">
+          <a href="#" class="footer-link">About</a>
+        </li>
+
+        <li class="footer-item">
+          <a href="#" class="footer-link">Privacy</a>
+        </li>
+
+        <li class="footer-item">
+          <a href="#" class="footer-link">Terms</a>
+        </li>
+
+        <li class="footer-item">
+          <a href="#" class="footer-link">Developers</a>
+        </li>
+
+        <li class="footer-item">
+          <a href="#" class="footer-link">Support</a>
+        </li>
+
+        <li class="footer-item">
+          <a href="#" class="footer-link">Careers</a>
+        </li>
+
+      </ul>
+
+      <p class="copyright">
+        &copy; 2022 <a href="#" class="copyright-link">codewithsadee</a>. All Rights Reserved
+      </p>
+
+    </div>
+  </footer>
+
+
+
+
+
+  <!-- 
+    - custom js link
+  -->
+  <script src="./assets/js/script.js"></script>
+
+</body>
+
 </html>
